@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry, mera hemu ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffdde1,#ee9ca7);overflow-x:hidden}
+.card{width:100%;max-width:470px;background:white;padding:30px 22px;border-radius:28px;text-align:center;box-shadow:0 15px 50px #a8326035}
+.heart{font-size:65px;animation:beat 1.2s infinite}
+h1{color:#e63968;font-size:30px}
+p{color:#777;line-height:1.7}
+.question{color:#444;font-size:20px;font-weight:bold;margin:25px 0 18px}
+.option{width:100%;padding:14px;margin:9px 0;border:2px solid #ffd0dc;border-radius:15px;background:#fff7f9;color:#d63365;font-size:15px;cursor:pointer;transition:.2s}
+.option:hover{background:#ffe0e9;transform:scale(1.02)}
+.option:disabled{opacity:.65;cursor:default}
+#result{margin-top:25px;color:#e63968;font-size:18px;line-height:1.8}
+.next{display:none;border:none;border-radius:50px;background:#e63968;color:white;padding:14px 28px;font-size:16px;cursor:pointer;margin:20px auto 0}
+.progress{font-size:13px;color:#aaa}
+@keyframes beat{50%{transform:scale(1.15)}}
+@keyframes floatUp{from{transform:translateY(0);opacity:1}to{transform:translateY(-110vh);opacity:0}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="heart">❤️</div>
+  <h1>I'm Sorry,Mera bacha 🥺</h1>
+  <p>A tiny love quiz from your silly boyfriend...<br>Please answer these with your heart 💗</p>
+  <div class="progress" id="progress"></div>
+  <div class="question" id="question"></div>
+  <div id="options"></div>
+  <div id="result"></div>
+  <button class="next" id="next" onclick="nextQuestion()">Next Question 💌</button>
+</div>
+
+<script>
+const loveQuiz = {
+  girlfriend: "Mera hemu ❤️",
+  questions: [
+    {
+      question: "Are you still angry with me, baby? 🥺",
+      options: ["Yes, a little 😤","Maybe... 🥹","I'm okay now ❤️","I need a hug 🤗"],
+      replies: [
+        "I understand, baby. Take your time. I'm truly sorry ❤️",
+        "I know, mera hemu. I wish I could hug you right now 🥺",
+        "Thank you for giving me a chance, mera bacha 💗",
+        "Sending you the biggest virtual hug ever 🤗❤️"
+      ]
+    },
+    {
+      question: "Do you want marry me?? 💖",
+      options: ["baad main dekhege😌","May be 🥹","I really want","NO! 😤"],
+      replies: [
+        "I understand, meri hemu. Take your time. I'm truly sorry❤️",
+        "Thik hai samjh gaya!💗",
+        "Me too ♾️❤️🥹",
+        "thik hai but I want you only tu nahi toh koi nahi!!🥺💯"
+      ]
+    },
+    {
+      question: "do you want to have babyes with me? 💌",
+      options: ["Yes, 10,15❤️😘", "No","Pehele kuch kar toh le 😤","first come here,idiot 😂❤️"],
+      replies: [
+        "thik hai I am ready for this 😁😘💖",
+        "Take all the time you need. I love you and respect your feelings 🫶",
+        "Okay hemu bulao phir ghar '😚❤️",
+        "Coming with unlimited hugs and kisses 😂💋"
+      ]
+    }
+  ]
+};
+
+let currentQuestion = 0;
+const questionBox = document.getElementById("question");
+const optionsBox = document.getElementById("options");
+const resultBox = document.getElementById("result");
+const nextButton = document.getElementById("next");
+const progressBox = document.getElementById("progress");
+
+function loadQuestion() {
+  const data = loveQuiz.questions[currentQuestion];
+  questionBox.textContent = data.question;
+  progressBox.textContent = `Question ${currentQuestion + 1} of ${loveQuiz.questions.length}`;
+  optionsBox.innerHTML = "";
+  resultBox.innerHTML = "";
+  nextButton.style.display = "none";
+
+  data.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = option;
+    button.onclick = () => selectAnswer(index);
+    optionsBox.appendChild(button);
+  });
+}
+
+function selectAnswer(index) {
+  const data = loveQuiz.questions[currentQuestion];
+  resultBox.innerHTML = data.replies[index];
+  document.querySelectorAll(".option").forEach(button => button.disabled = true);
+  nextButton.style.display = "block";
+  createHearts();
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < loveQuiz.questions.length) {
+    loadQuestion();
+  } else {
+    questionBox.innerHTML = "One Last Message, My Love ❤️";
+    progressBox.textContent = "Final Message 💌";
+    optionsBox.innerHTML = "";
+    resultBox.innerHTML = `
+      🥹❤️ I'm truly sorry, my baby ❤️🥹
+      <br><br>
+      I know I made a mistake, but my love for you is real.
+      <br><br>
+      I don't want to win an argument. I want to understand you,
+      make you happy, and love you better.
+      <br><br>
+      Please take your time. Your feelings matter to me. 🫶
+      <br><br>
+      I LOVE YOU SO MUCH! 💋💗
+    `;
+    nextButton.textContent = "Replay Quiz ❤️";
+    nextButton.style.display = "block";
+    nextButton.onclick = () => {
+      currentQuestion = 0;
+      nextButton.textContent = "Next Question 💌";
+      nextButton.onclick = nextQuestion;
+      loadQuestion();
+    };
+    createHearts();
+  }
+}
+
+function createHearts() {
+  for (let i = 0; i < 15; i++) {
+    const heart = document.createElement("div");
+    heart.textContent = ["❤️","💗","💖","💕","🥹"][Math.floor(Math.random()*5)];
+    heart.style.position = "fixed";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "-30px";
+    heart.style.fontSize = "25px";
+    heart.style.pointerEvents = "none";
+    heart.style.animation = "floatUp 4s linear forwards";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
